@@ -48,22 +48,24 @@ document.addEventListener('DOMContentLoaded', function () {
                         </tr>`;
         });
 
+        tableHTML += '</table>';
+        document.getElementById('examSchedule').innerHTML = tableHTML;
+    }
+
+    function calculateAverageRemainingDays() {
         const assumedRemainingDaysPreBoard = ((new Date('February 26, 2024') - Date.now()) / (1000 * 3600 * 24)).toFixed(1);
         const assumedRemainingDaysBoard = ((new Date('March 16, 2024') - Date.now()) / (1000 * 3600 * 24)).toFixed(1);
 
         const remainingDaysForEachSubjectPB = (assumedRemainingDaysPreBoard / examSchedule.length).toFixed(1);
         const remainingDaysForEachSubjectB = (assumedRemainingDaysBoard / examSchedule.length).toFixed(1);
 
-        // Check for negative values and replace with 'Exam Over'
-        tableHTML += `<tr>
-            <td><b>Average Remaining Days per Subject (Pre Board)</b></td>
-            <td>${remainingDaysForEachSubjectPB < 0 ? 'Exam Over' : remainingDaysForEachSubjectPB}</td>
-            <td><b>Average Remaining Days per Subject (Board)</b></td>
-            <td>${remainingDaysForEachSubjectB < 0 ? 'Exam Over' : remainingDaysForEachSubjectB}</td>
-        </tr>`;
-
-        tableHTML += '</table>';
-        document.getElementById('examSchedule').innerHTML = tableHTML;
+        let averageRemainingDaysHTML = '<h2>Average Remaining Days per Subject</h2>';
+        averageRemainingDaysHTML += '<table>';
+        averageRemainingDaysHTML += '<tr><th>Exam</th><th>Days</th></tr>';
+        averageRemainingDaysHTML += `<tr><td>Pre Board</td><td>${remainingDaysForEachSubjectPB < 0 ? 'Exam Over' : remainingDaysForEachSubjectPB}</td></tr>`;
+        averageRemainingDaysHTML += `<tr><td>Board</td><td>${remainingDaysForEachSubjectB < 0 ? 'Exam Over' : remainingDaysForEachSubjectB}</td></tr>`;
+        averageRemainingDaysHTML += '</table>';
+        document.getElementById('averageRemainingDays').innerHTML = averageRemainingDaysHTML;
     }
 
     function calculateRemainingChapters() {
@@ -93,5 +95,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     generateTable();
     calculateRemainingChapters();
-
+    calculateAverageRemainingDays();
 });
